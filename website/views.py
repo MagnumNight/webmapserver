@@ -11,12 +11,10 @@ views = Blueprint("views", __name__)
 @login_required
 def home():
     """Home route that calls home.html"""
-    return render_template(
-        "home.html", user=current_user
-    )
+    return render_template("home.html", user=current_user)
 
 
 @views.route("/map")
 def openstreetmap():
-    """This is the LEO route. It calls map.html page"""
+    """Map route that calls map.html"""
     return render_template("map.html", user=current_user)
