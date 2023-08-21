@@ -1,0 +1,16 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content %}
+    <h1 style="text-align:center">GPS visualization</h1>
+
+    <h2 style="text-align:left; margin-top: 50px">About</h2>
+    <!--Ignore the error. This will populate the photo on the website-->
+    <figure>
+        <figcaption> This server exists simply to be able to plot your GPS points on a map without having to worry about
+            who owns the data.
+        </figcaption>
+        <figcaption> The server runs on a Digital Ocean droplet that is encrypted. Additionally, no data is stored on
+            the server, other than the login credentials of the users.
+        </figcaption>
+    </figure>
+    <h3 style="text-align:left">Plot your points on a map, <a href="http://127.0.0.1:5000/map">here</a>
+    </h3>
+{% endblock %}

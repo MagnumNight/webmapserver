@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="../static/pics/I.png"/>
+
+    <!-- Stylesheets -->
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+            integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+            crossorigin="anonymous"
+    />
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+            crossorigin="anonymous"
+    />
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            flex-direction: column; /* Set up flexbox layout vertically */
+        }
+
+        .container {
+            flex: 1; /* This allows the content to grow and push the footer down */
+        }
+
+        .footer {
+            width: 100%; /* Ensure the footer spans the entire width */
+            text-align: center; /* Center the text */
+        }
+
+        .main-content {
+            flex-grow: 1; /* This makes it take all available space */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-buffer {
+            margin-top: 50px; /* The buffer */
+        }
+    </style>
+
+    <title>{% block title %}Home{% endblock %}</title>
+
+    <!-- Insert head block for additional head elements from child templates -->
+    {% block head %}{% endblock %}
+</head>
+<body>
+<!-- This navbar is directly from the bootstrap website -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <!-- For mobile -->
+    <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbar"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <!-- Creates a collapsable NAV bar-->
+    <div class="collapse navbar-collapse" id="navbar">
+        <div class="navbar-nav">
+            {% if user.is_authenticated %}
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
+                       aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-plus"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="/">Home</a>
+                        <a class="dropdown-item" href="/map">Map</a>
+                        <a class="dropdown-item" href="/logout">Logout</a>
+                        <a class="dropdown-item" href="/change">Change Password</a>
+                    </div>
+                </div>
+            {% else %}
+                <a class="nav-item nav-link" id="login" href="/login">Login</a>
+                <a class="nav-item nav-link" id="signUp" href="/sign-up">Sign Up</a>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+<!-- Wrapping the content and messages in main-content -->
+<div class="main-content">
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %} {% for category, message in messages %} {% if category ==
+    'error' %}
+        <div class="alert alert-danger alter-dismissable fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% else %}
+        <div class="alert alert-success alter-dismissable fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    {% endif %} {% endfor %} {% endif %} {% endwith %}
+
+    <div class="container content-buffer">{% block content %} {% endblock %}</div>
+
+    <!-- Insert scripts block for additional scripts from child templates -->
+    {% block scripts %}{% endblock %}
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"
+    ></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"
+    ></script>
+
+    <!-- Scripts and footer ... -->
+    <footer class="footer mt-auto py-3 bg-transparent">
+        <div class="footer text-center">
+            {% block footer_content %}
+                <span class="text-muted">Created by: Sam Doerner</span><br>
+                <span class="text-muted">Time: <span class="live-time"></span></span>
+            {% endblock %}
+        </div>
+    </footer>
+
+    <script>
+        function updateLiveTime() {
+            const timeElements = document.querySelectorAll('.live-time');
+            timeElements.forEach((element) => {
+                const now = new Date();
+                element.innerText = now.toLocaleTimeString();  // Using toLocaleTimeString() will format it nicely
+            });
+        }
+
+        setInterval(updateLiveTime, 1000);  // This calls the updateLiveTime function every second
+    </script>
+
+</body>
+</html>

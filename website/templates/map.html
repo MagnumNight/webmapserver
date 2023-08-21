@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Map{% endblock %}
+
+{% block head %}
+    <!-- Leaflet's CSS - local link -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='libs/leaflet/leaflet.css') }}"/>
+    <!-- Include PapaParse from CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+
+    <style>
+        .map-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* Start at the top */
+            align-items: center; /* Horizontally center */
+        }
+
+        .map-container h1 {
+            margin-bottom: 20px; /* Spacing between the title and the map */
+        }
+
+        .file-input {
+            margin-bottom: 20px; /* Space between file input and map */
+        }
+
+        #osm-map {
+            margin-top: 10px; /* Space between buttons and the map */
+        }
+
+        .input-box {
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            width: 400px; /* <-- Increase this width */
+        }
+
+        #csvFile {
+            width: 60%; /* <-- Set a specific width for the file input */
+        }
+
+        button {
+            width: 35%; /* <-- Set a specific width for the button */
+            cursor: pointer; /* <-- To indicate it's clickable */
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="map-container">
+        <h1>Map</h1>
+        <div class="file-input">
+            <div class="input-box">   <!-- The box around the buttons -->
+                <input type="file" id="csvFile" accept=".csv"/>
+                <button onclick="loadData()">Load Points</button>
+            </div>
+        </div>
+        <!-- Geoapify Integration -->
+        <div id="osm-map" style="width: 100%; height: 480px;"></div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <!-- Leaflet's JS - local link -->
+    <script src="{{ url_for('static', filename='libs/leaflet/leaflet.js') }}"></script>
+
+    <script>
+        L.Icon.Default.imagePath = '{{ url_for('static', filename='libs/leaflet/images/') }}';
+
+        // Initialize the map centered on Washington D.C.
+        const map = L.map('osm-map').setView([38.9519, -77.1459], 15);
+
+        // Specify the tile layer for Geoapify
+        L.tileLayer('https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=a2062bd3e98443c08c8793be4541f5d4', {
+            maxZoom: 19,
+            attribution: '© Geoapify and © OpenStreetMap contributors'
+        }).addTo(map);
+
+        function loadData() {
+    const file = document.getElementById('csvFile').files[0];
+    if (file) {
+        Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            dynamicTyping: true,
+            complete: function(results) {
+                console.log("Parsed CSV Data:", results.data); // Debugging line
+                const data = extractData(results.data);
+                console.log("Filtered Points Data:", data); // Debugging line
+                plotData(data);
+            }
+        });
+    }
+}
+
+function extractData(rows) {
+    const data = [];
+    let latKey, lonKey;
+
+    if (rows.length > 0) {
+        const keys = Object.keys(rows[0]);
+        keys.forEach(key => {
+            const lowerKey = key.toLowerCase();
+            if (!latKey && (lowerKey.includes("lat"))) {
+                latKey = key;
+            }
+            if (!lonKey && (lowerKey.includes("lon"))) {
+                lonKey = key;
+            }
+        });
+
+        rows.forEach(row => {
+            const latitude = parseFloat(row[latKey]);
+            const longitude = parseFloat(row[lonKey]);
+            if (!isNaN(latitude) && !isNaN(longitude)) {
+                data.push({name: "Point", coords: [latitude, longitude]});
+            }
+        });
+    }
+
+    return data;
+}
+
+        function plotData(data) {
+            const group = L.featureGroup();
+            data.forEach(item => {
+                const marker = L.marker(item.coords, { title: item.name }).addTo(map);
+                group.addLayer(marker);
+            });
+            map.fitBounds(group.getBounds());
+        }
+    </script>
+{% endblock %}
