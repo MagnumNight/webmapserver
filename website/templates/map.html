@@ -73,10 +73,11 @@
         const map = L.map('osm-map').setView([38.9519, -77.1459], 15);
 
         // Specify the tile layer for Geoapify
-        L.tileLayer('https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=a2062bd3e98443c08c8793be4541f5d4', {
-            maxZoom: 19,
-            attribution: '© Geoapify and © OpenStreetMap contributors'
-        }).addTo(map);
+        L.tileLayer(
+            'https://maps.geoapify.com/v1/tile/osm-bright/{z}/{x}/{y}.png?apiKey=a2062bd3e98443c08c8793be4541f5d4', {
+                maxZoom: 19,
+                attribution: '© Geoapify and © OpenStreetMap contributors'
+            }).addTo(map);
 
         function loadData() {
             const file = document.getElementById('csvFile').files[0];
