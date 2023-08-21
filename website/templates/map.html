@@ -79,54 +79,87 @@
         }).addTo(map);
 
         function loadData() {
-    const file = document.getElementById('csvFile').files[0];
-    if (file) {
-        Papa.parse(file, {
-            header: true,
-            skipEmptyLines: true,
-            dynamicTyping: true,
-            complete: function(results) {
-                console.log("Parsed CSV Data:", results.data); // Debugging line
-                const data = extractData(results.data);
-                console.log("Filtered Points Data:", data); // Debugging line
-                plotData(data);
+            const file = document.getElementById('csvFile').files[0];
+            if (file) {
+                Papa.parse(file, {
+                    header: true,
+                    skipEmptyLines: true,
+                    dynamicTyping: true,
+                    complete: function (results) {
+                        console.log("Parsed CSV Data:", results.data); // Debugging line
+                        const data = extractData(results.data);
+                        if (data.error) {
+                            alert(data.error); // Showing an alert, but you can design a custom error message UI
+                        } else {
+                            console.log("Filtered Points Data:", data); // Debugging line
+                            plotData(data);
+                        }
+                    }
+                });
             }
-        });
-    }
-}
+        }
 
-function extractData(rows) {
-    const data = [];
-    let latKey, lonKey;
 
-    if (rows.length > 0) {
-        const keys = Object.keys(rows[0]);
-        keys.forEach(key => {
-            const lowerKey = key.toLowerCase();
-            if (!latKey && (lowerKey.includes("lat"))) {
-                latKey = key;
+        function extractData(rows) {
+            const data = [];
+            let latKey, lonKey, nameKey, timeKey, dateKey;
+
+            if (rows.length > 0) {
+                const keys = Object.keys(rows[0]);
+                keys.forEach(key => {
+                    const lowerKey = key.toLowerCase();
+                    if (!latKey && (lowerKey.includes("lat") || lowerKey.includes("latitude"))) {
+                        latKey = key;
+                    }
+                    if (!lonKey && (lowerKey.includes("lon") || lowerKey.includes("longitude"))) {
+                        lonKey = key;
+                    }
+                    if (!nameKey && (lowerKey.includes("name"))) {
+                        nameKey = key;
+                    }
+                    if (!timeKey && (lowerKey.includes("time"))) {
+                        timeKey = key;
+                    }
+                    if (!dateKey && (lowerKey.includes("date"))) {
+                        dateKey = key;
+                    }
+                });
+
+                if (!latKey || !lonKey) {
+                    return {
+                        error: 'The provided CSV file must contain both latitude and longitude columns.'
+                    };
+                }
+
+                rows.forEach(row => {
+                    const latitude = parseFloat(row[latKey]);
+                    const longitude = parseFloat(row[lonKey]);
+                    if (!isNaN(latitude) && !isNaN(longitude)) {
+                        let point = {
+                            name: row[nameKey] || "Unknown",
+                            coords: [latitude, longitude]
+                        };
+
+                        if (timeKey && row[timeKey]) {
+                            point.time = row[timeKey];
+                        }
+                        if (dateKey && row[dateKey]) {
+                            point.date = row[dateKey];
+                        }
+
+                        data.push(point);
+                    }
+                });
             }
-            if (!lonKey && (lowerKey.includes("lon"))) {
-                lonKey = key;
-            }
-        });
 
-        rows.forEach(row => {
-            const latitude = parseFloat(row[latKey]);
-            const longitude = parseFloat(row[lonKey]);
-            if (!isNaN(latitude) && !isNaN(longitude)) {
-                data.push({name: "Point", coords: [latitude, longitude]});
-            }
-        });
-    }
+            return data;
+        }
 
-    return data;
-}
 
         function plotData(data) {
             const group = L.featureGroup();
             data.forEach(item => {
-                const marker = L.marker(item.coords, { title: item.name }).addTo(map);
+                const marker = L.marker(item.coords, {title: item.name}).addTo(map);
                 group.addLayer(marker);
             });
             map.fitBounds(group.getBounds());
