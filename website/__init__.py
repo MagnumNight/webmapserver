@@ -29,7 +29,6 @@ def create_app():
     )
     flask_change_password.init_app(app)
 
-    # I had to move these here to get this to work
     from .views import views
     from .auth import auth
     from .models import User
