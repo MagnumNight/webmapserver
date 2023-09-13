@@ -1,7 +1,5 @@
 # GPS Visualization Tool
 
-This server exists to plot GPS points (currently only CSV) on a map without worrying about who owns the data.
-
 My live server runs on a Digital Ocean droplet that is encrypted. Additionally, no data besides
 the users' login credentials are stored on the server. Shoot me a message if you would like access to the live server.
 
