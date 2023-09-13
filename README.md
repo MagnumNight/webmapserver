@@ -21,6 +21,12 @@ Virtual environment (optional, but recommended)
 git clone [URL_OF_THE_REPOSITORY]
 ```
 
+### Navigate to the project directory:
+
+```
+cd path_to_directory
+```
+
 ### Generate your own geoapify API key:
 
 #### In map.html, update this with your API key:
@@ -31,12 +37,6 @@ L.tileLayer(
                 maxZoom: 19,
                 attribution: '© Geoapify and © OpenStreetMap contributors'
             }).addTo(map);
-```
-
-### Navigate to the project directory:
-
-```
-cd path_to_directory
 ```
 
 ### Set Up a Virtual Environment (Recommended):
