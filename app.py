@@ -1,4 +1,4 @@
-"""This is the main program that will run the whole webserver"""
+"""This runs the webserver"""
 
 from website import create_app
 
