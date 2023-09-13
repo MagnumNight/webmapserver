@@ -12,20 +12,20 @@
         .map-container {
             display: flex;
             flex-direction: column;
-            justify-content: flex-start; /* Start at the top */
-            align-items: center; /* Horizontally center */
+            justify-content: flex-start;
+            align-items: center;
         }
 
         .map-container h1 {
-            margin-bottom: 20px; /* Spacing between the title and the map */
+            margin-bottom: 20px;
         }
 
         .file-input {
-            margin-bottom: 20px; /* Space between file input and map */
+            margin-bottom: 20px;
         }
 
         #osm-map {
-            margin-top: 10px; /* Space between buttons and the map */
+            margin-top: 10px;
         }
 
         .input-box {
@@ -34,16 +34,16 @@
             border-radius: 5px;
             display: flex;
             justify-content: space-between;
-            width: 400px; /* <-- Increase this width */
+            width: 400px;
         }
 
         #csvFile {
-            width: 60%; /* <-- Set a specific width for the file input */
+            width: 60%;
         }
 
         button {
-            width: 35%; /* <-- Set a specific width for the button */
-            cursor: pointer; /* <-- To indicate it's clickable */
+            width: 35%;
+            cursor: pointer;
         }
     </style>
 {% endblock %}
@@ -52,7 +52,7 @@
     <div class="map-container">
         <h1>Map</h1>
         <div class="file-input">
-            <div class="input-box">   <!-- The box around the buttons -->
+            <div class="input-box">
                 <input type="file" id="csvFile" accept=".csv"/>
                 <button onclick="loadData()">Load Points</button>
             </div>
@@ -87,12 +87,12 @@
                     skipEmptyLines: true,
                     dynamicTyping: true,
                     complete: function (results) {
-                        console.log("Parsed CSV Data:", results.data); // Debugging line
+                        console.log("Parsed CSV Data:", results.data);
                         const data = extractData(results.data);
                         if (data.error) {
-                            alert(data.error); // Showing an alert, but you can design a custom error message UI
+                            alert(data.error);
                         } else {
-                            console.log("Filtered Points Data:", data); // Debugging line
+                            console.log("Filtered Points Data:", data);
                             plotData(data);
                         }
                     }

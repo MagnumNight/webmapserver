@@ -7,6 +7,9 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_change_password import ChangePassword
 from flask_bcrypt import Bcrypt
+import logging
+
+logging.basicConfig(filename="logs.txt", level=logging.WARNING)
 
 key = secrets.token_hex(16)
 db = SQLAlchemy()
