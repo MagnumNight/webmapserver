@@ -69,20 +69,14 @@ Navigate to settings to change your password.
 ```
 
 ### Security Practices:
-
-```
 Passwords are hashed using bcrypt.
 Common passwords are checked against a list to ensure user password security.
 Logging of failed login attempts including IP for audit purposes.
-```
 
 ### Contributing:
-
-```
 Pull requests are welcome. 
 For major changes, please open an issue first to discuss what you would like to change.
-```
+
 
 ### License:
-
 This project is licensed under the MIT License - please look at the LICENSE.txt file for details.
