@@ -1,4 +1,4 @@
-"""This program is used to run the website"""
+"""This runs the website"""
 
 from os import path
 import secrets
