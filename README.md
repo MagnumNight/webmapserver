@@ -79,4 +79,4 @@ For major changes, please open an issue first to discuss what you would like to 
 
 
 ### License:
-This project is licensed under the MIT License - please look at the LICENSE.txt file for details.
+This project is licensed under the MIT License - please look at the LICENSE.md file for details.
