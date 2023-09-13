@@ -100,7 +100,12 @@ def sign_up():
                 return render_template("sign_up.html", user=current_user)
 
         hashed_password = bcrypt.generate_password_hash(password1).decode("utf-8")
-        new_user = User()
+        new_user = User(
+            email=email,
+            first_name=first_name,
+            last_name=last_name,
+            password=hashed_password,
+        )
 
         try:
             db.session.add(new_user)

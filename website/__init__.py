@@ -23,7 +23,7 @@ def create_app():
 
     # Initialize extensions with the app:
     db.init_app(app)
-    bcrypt.init_app(app)  # <-- initialize Bcrypt with the app
+    bcrypt.init_app(app)
     flask_change_password = ChangePassword(
         min_password_length=12, rules=dict(long_password_override=2)
     )
