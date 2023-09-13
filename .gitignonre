@@ -1,0 +1,27 @@
+# Python cache files and bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# SQLite database
+*.db
+*.sqlite
+
+# Flask-specific
+instance/
+
+# Environment variable files
+.env
+.env.*
+
+# Development tools
+*.log
+
+# IDE-specific
+.idea/
+.vscode/
+
+# OS-specific
+.DS_Store   # macOS
+Thumbs.db   # Windows
+
