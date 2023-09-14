@@ -1,4 +1,4 @@
-"""This program will handle the pages that are views by the website user"""
+"""This will handle the pages that are viewed by the website user"""
 
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
