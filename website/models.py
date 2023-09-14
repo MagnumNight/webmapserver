@@ -1,4 +1,4 @@
-"""This program is used for models for the database and user information"""
+"""This is used for models for the database and user information"""
 
 from flask_login import UserMixin
 from sqlalchemy import func
