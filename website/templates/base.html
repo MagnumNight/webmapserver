@@ -24,32 +24,31 @@
             height: 100%;
             margin: 0;
             display: flex;
-            flex-direction: column; /* Set up flexbox layout vertically */
+            flex-direction: column;
         }
 
         .container {
-            flex: 1; /* This allows the content to grow and push the footer down */
+            flex: 1; 
         }
 
         .footer {
-            width: 100%; /* Ensure the footer spans the entire width */
-            text-align: center; /* Center the text */
+            width: 100%; 
+            text-align: center;
         }
 
         .main-content {
-            flex-grow: 1; /* This makes it take all available space */
+            flex-grow: 1;
             display: flex;
             flex-direction: column;
         }
 
         .content-buffer {
-            margin-top: 50px; /* The buffer */
+            margin-top: 50px; 
         }
     </style>
 
     <title>{% block title %}Home{% endblock %}</title>
 
-    <!-- Insert head block for additional head elements from child templates -->
     {% block head %}{% endblock %}
 </head>
 <body>
@@ -109,7 +108,7 @@
 
     <div class="container content-buffer">{% block content %} {% endblock %}</div>
 
-    <!-- Insert scripts block for additional scripts from child templates -->
+    <!-- Script block for additional scripts from child templates -->
     {% block scripts %}{% endblock %}
     <script
             src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
@@ -127,7 +126,7 @@
             crossorigin="anonymous"
     ></script>
 
-    <!-- Scripts and footer ... -->
+    <!-- More scripts and footer -->
     <footer class="footer mt-auto py-3 bg-transparent">
         <div class="footer text-center">
             {% block footer_content %}
