@@ -9,14 +9,14 @@ Python 3.11
 
 pip
 
-Virtual environment (optional, but recommended)
+Virtual environment (optional but recommended)
 
 ## Getting Started
 
 ### Clone the Repository:
 
 ```
-git clone [URL_OF_THE_REPOSITORY]
+git clone https://github.com/MagnumNight/webmapserver
 ```
 
 ### Navigate to the project directory:
